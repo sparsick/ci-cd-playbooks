@@ -1,0 +1,11 @@
+- hosts:
+
+  tasks:
+    - name: add java 8 repo
+      apt_repository:
+        repo: 'ppa:webupd8team/java'
+        state: present
+    - name: installl java 8
+      apt:
+        name: oracle-java8-installer
+        update_cache: yes
