@@ -1,0 +1,19 @@
+- hosts:
+
+  tasks:
+    - name: Add an Apt signing key for Jenkins
+      apt_key:
+        url: https://pkg.jenkins.io/debian/jenkins.io.key
+        state: present
+
+    - name: add jenkins repo
+      apt_repository:
+        repo: deb https://pkg.jenkins.io/debian binary/
+        state: present
+
+    - name: installl Jenkins
+      apt:
+        name: jenkins
+        update_cache: yes
+
+  
