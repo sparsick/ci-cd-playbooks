@@ -1,0 +1,7 @@
+- hosts: gitlab-app
+  become: yes
+  become_method: sudo
+  vars_files:
+    - vars/gitlab.yml
+  roles:
+    - { role: geerlingguy.gitlab }

@@ -1,0 +1,16 @@
+= Collection of Ansible Playbooks to Setup a CI Environment
+
+== Requirements
+
+Some playbooks use roles from Ansible Galaxy.
+Therefore, run following command to install all necessary roles from Ansible Galaxy:
+[source,bash]
+----
+ansible-galaxy install -r requirements.yml
+----
+
+== How to setup inventories
+
+== Settings for Playbooks
+
+=== Gitlab specific Settings
