@@ -1,0 +1,12 @@
+[Unit]
+Description="Nexus 3 Repository Manager"
+After=network.target
+
+[Service]
+ExecStart=/opt/nexus3/bin/nexus start
+ExecStop=/opt/nexus3/bin/nexus stop
+PidFile=/var/run/nexus.pid
+User=nexus
+
+[Install]
+WantedBy=multi-user.target
