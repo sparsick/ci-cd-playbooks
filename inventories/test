@@ -1,0 +1,8 @@
+[jenkins-app]
+192.168.33.10
+
+[gitlab-app]
+192.168.33.10
+
+[java-app:children]
+jenkins-app

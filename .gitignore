@@ -1,3 +1,5 @@
+inventories/
+vars/
 
 # Created by https://www.gitignore.io/api/ansible
 
@@ -6,5 +8,11 @@
 
 # End of https://www.gitignore.io/api/ansible
 
-inventories/
-vars/
+
+# Created by https://www.gitignore.io/api/vagrant
+
+### Vagrant ###
+.vagrant/
+*.box
+
+# End of https://www.gitignore.io/api/vagrant
