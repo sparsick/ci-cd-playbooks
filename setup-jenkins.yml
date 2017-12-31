@@ -1,4 +1,6 @@
-- hosts:
+- hosts: jenkins-app
+  become_method: sudo
+  become: true
 
   tasks:
     - name: Add an Apt signing key for Jenkins
@@ -13,7 +15,52 @@
 
     - name: installl Jenkins
       apt:
-        name: jenkins
+        name: "jenkins"
         update_cache: yes
 
-  
+    - name: Setup JENKINS_HOME
+      lineinfile:
+        path: /etc/default/jenkins
+        regexp: '^JENKINS_HOME='
+        line: 'JENKINS_HOME=/opt/jenkins'
+      notify: restart jenkins
+
+    - name: Setup Java Args
+      lineinfile:
+        path: /etc/default/jenkins
+        regexp: '^JAVA_ARGS=-Xmx2048m -XX:MaxPermSize=512m -Djava.awt.headless=true -Djenkins.install.runSetupWizard=false'
+        line: 'JAVA_ARGS='
+      notify: restart jenkins
+
+    - name: Setup Jenkins HTTP port
+      lineinfile:
+        path: /etc/default/jenkins
+        regexp: '^HTTP_PORT='
+        line: 'HTTP_PORT=8083'
+      notify: restart jenkins
+
+    - name: create jenkins home folder
+      file:
+        path: "{{ item }}"
+        state: directory
+        owner: jenkins
+        recurse: yes
+      with_items:
+        - "/opt/jenkins"
+        - "/opt/jenkins/init.groovy.d"
+
+    - name: copy init jenkins Scripts
+      file:
+        src: files/jenkins/init.groovy.d/
+        dest: /opt/jenkins/init.groovy.d/
+      notify: restart jenkins
+
+    - name: start jenkins service
+      service:
+        name: jenkins
+        enabled: yes
+        state: started
+
+  handlers:
+    - name: restart jenkins
+      service: name=jenkins state=restarted
