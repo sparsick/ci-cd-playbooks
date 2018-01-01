@@ -1,7 +1,11 @@
 - hosts: nexus-app
+  become_method: sudo
+  become: yes
   tasks:
     - name: Download Nexus Archive
-      local_action: get_url url=https://sonatype-download.global.ssl.fastly.net/nexus/3/nexus-3.7.1-02-unix.tar.gz dest=/tmp
+      get_url:
+         url: https://sonatype-download.global.ssl.fastly.net/nexus/3/nexus-3.7.1-02-unix.tar.gz
+         dest: /tmp
 
     - name: Add group Nexus
       group:
@@ -19,19 +23,24 @@
     - name: Unarchive Nexus
       unarchive:
         src: /tmp/nexus-3.7.1-02-unix.tar.gz
+        remote_src: yes
         dest: /opt
         creates: /opt/nexus-3.7.1-02
 
     - name: Add nexus as owner of nexus installation
       file:
-        path: /opt/nexus-3.7.1-02
+        path: "{{ item }}"
         owner: nexus
-        owner: nexus
+        recurse: yes
+      with_items:
+        - /opt/nexus-3.7.1-02
+        - /opt/sonatype-work
+
 
     - name: Set link to nexus
       file:
-        src: /opt/nexus3
-        dest: /opt/nexus-3.7.1-02
+        src: /opt/nexus-3.7.1-02
+        dest: /opt/nexus3
         state: link
 
     - name: install Nexus as service

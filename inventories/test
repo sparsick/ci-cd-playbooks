@@ -4,5 +4,9 @@
 [gitlab-app]
 192.168.33.10
 
+[nexus-app]
+192.168.33.10
+
 [java-app:children]
 jenkins-app
+nexus-app
