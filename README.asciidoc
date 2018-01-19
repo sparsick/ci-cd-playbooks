@@ -3,17 +3,38 @@
 == Requirements
 
 Some playbooks use roles from Ansible Galaxy.
-Therefore, run following command to install all necessary roles from Ansible Galaxy:
+Therefore, run following command to install all necessary roles from Ansible Galaxy before using the playbooks:
 [source,bash]
 ----
 ansible-galaxy install -r requirements.yml
 ----
 
+The playbooks are tested with Ansible 2.4.2.0.
+
 == How to setup inventories
+
+Use the +test+ inventory file as template and fill the required group with your used IP Address or domain.
+The groups relates to the applications.
 
 == Settings for Playbooks
 
+Some setting for Gitlab and Jenkins are outsourced in own variable files (+vars/*.yml+).
+
 === Gitlab specific Settings
+Please check the link:https://github.com/geerlingguy/ansible-role-gitlab[documentation of the role 'geerlingguy.gitlab'].
+
+=== Jenkins specific Settings
+Following variable are available, along with default values:
+
+[source,yaml]
+----
+jenkins_home: "/opt/jenkins"
+jenkins_http_port: "8083"
+----
 
 == Testing
-# vagrantfile
+It exists  a +Vagrantfile+ for testing and the inventory +test+ is prepared for the vagrant box.
+After start the VM with +vagrant up+, you have to run +./postInstall.sh+ to prepare the vagrant user for used in Ansible.
+
+
+// TODO: java and docker as role because they are required by the main apps and will not be used standalone.

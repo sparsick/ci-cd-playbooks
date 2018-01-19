@@ -18,7 +18,7 @@
         state: present
         group: nexus
         createhome: no
-    # backup erstellen falls sonatype-workspace existiert
+    # TODO create a backup if sonatype-workspace exists
 
     - name: Unarchive Nexus
       unarchive:
