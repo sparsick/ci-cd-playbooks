@@ -1,4 +1,4 @@
-= Collection of Ansible Playbooks to Setup a CI Environment
+= Collection of Ansible Playbooks to Setup a CI/CD Environment
 
 == Requirements
 
