@@ -1,0 +1,7 @@
+gitlab_external_url: "http://localhost:8070"
+gitlab_smtp_enable: "false"
+gitlab_email_enabled: "false"
+gitlab_ldap_enabled: "false"
+gitlab_time_zone: "Europe/Brussels"
+gitlab_edition: "gitlab-ce"
+gitlab_redirect_http_to_https: "false"

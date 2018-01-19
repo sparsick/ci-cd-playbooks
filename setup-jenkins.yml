@@ -1,6 +1,8 @@
 - hosts: jenkins-app
   become_method: sudo
   become: true
+  vars_files:
+    - vars/jenkins.yml
 
   tasks:
     - name: Add an Apt signing key for Jenkins
@@ -22,13 +24,13 @@
       lineinfile:
         path: /etc/default/jenkins
         regexp: '^JENKINS_HOME='
-        line: 'JENKINS_HOME=/opt/jenkins'
+        line: 'JENKINS_HOME={{ jenkins_home }}'
       notify: restart jenkins
 
     - name: Setup Java Args
       lineinfile:
         path: /etc/default/jenkins
-        regexp: '^JAVA_ARGS=-Xmx2048m -XX:MaxPermSize=512m -Djava.awt.headless=true -Djenkins.install.runSetupWizard=false'
+        regexp: '^JAVA_ARGS=-Xmx2048m -Djava.awt.headless=true -Djenkins.install.runSetupWizard=false'
         line: 'JAVA_ARGS='
       notify: restart jenkins
 
@@ -36,7 +38,7 @@
       lineinfile:
         path: /etc/default/jenkins
         regexp: '^HTTP_PORT='
-        line: 'HTTP_PORT=8083'
+        line: 'HTTP_PORT={{ jenkins_http_port }}'
       notify: restart jenkins
 
     - name: create jenkins home folder
