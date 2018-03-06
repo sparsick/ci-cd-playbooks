@@ -1,0 +1,20 @@
+- hosts: jenkins-app
+  become: true
+  become_method: sudo
+
+  tasks:
+      - name: Add docker ce repository
+        command: yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+
+      - name: Install docker daemon ce
+        yum:
+         name: {{ item }}
+         state: present
+        with_items:
+        - yum-utils
+        - device-mapper-persistent-data
+        - lvm2
+        - docker-ce
+
+      - name: add user jenkins to docker group
+        user: name=jenkins group=docker state=present
