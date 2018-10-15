@@ -3,18 +3,7 @@
   become_method: sudo
 
   tasks:
-    - name: add java 8 repo
-      apt_repository:
-        repo: 'ppa:webupd8team/java'
-        state: present
-    - debconf:
-        name: oracle-java8-installer
-        question: shared/accepted-oracle-license-v1-1
-        value: true
-        vtype: boolean
-
     - name: installl java 8
       apt:
-        name: oracle-java8-installer
-        update_cache: yes
+        name: openjdk-8-jre-headless
         force: yes
