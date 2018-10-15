@@ -26,6 +26,7 @@ Vagrant.configure("2") do |config|
 
     ubuntu.vm.provision "shell", inline: <<-SHELL
       sudo apt-get update
+      sudo apt-get install python -y
       sudo sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config
       sudo service sshd restart
     SHELL
