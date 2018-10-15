@@ -12,8 +12,7 @@ Vagrant.configure("2") do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
-  config.vm.box = "boxcutter/ubuntu1604"
-  config.vm.box_version = "17.0907.1"
+  config.vm.box = "ubuntu/bionic64"
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
@@ -26,6 +25,14 @@ Vagrant.configure("2") do |config|
   # NOTE: This will enable public access to the opened port
   # config.vm.network "forwarded_port", guest: 80, host: 8080
   config.vm.network "private_network", ip: "192.168.33.10"
+
+  config.trigger.after :up do |trigger|
+    trigger.run = { path: "./postInstall.sh" }
+  end
+
+  config.trigger.after :destroy do |trigger|
+    trigger.run = { inline: "rm ubuntu-bionic-18.04-cloudimg-console.log" }
+  end
 
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine and only allow access
@@ -74,5 +81,7 @@ Vagrant.configure("2") do |config|
   # documentation for more information about their specific syntax and use.
   config.vm.provision "shell", inline: <<-SHELL
     sudo apt-get update
+    sudo sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config
+    sudo service sshd restart
   SHELL
 end

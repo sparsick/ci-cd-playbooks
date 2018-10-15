@@ -11,6 +11,8 @@ ansible-galaxy install -r requirements.yml
 
 The playbooks are tested with Ansible 2.4.2.0.
 
+Currently, the playbooks run only on an Ubuntu system.
+
 == How to setup inventories
 
 Use the +test+ inventory file as template and fill the required group with your used IP Address or domain.
@@ -33,8 +35,10 @@ jenkins_http_port: "8083"
 ----
 
 == Testing
-It exists  a +Vagrantfile+ for testing and the inventory +test+ is prepared for the vagrant box.
-After start the VM with +vagrant up+, you have to run +./postInstall.sh+ to prepare the vagrant user for used in Ansible.
+It exists  a +Vagrantfile+ for testing and the inventory +test+ is prepared for the Vagrant box.
+
+It's tested with Vagrant 2.1.5. For starting the test VM run *vagrant up*.
+
 
 
 // TODO: java and docker as role because they are required by the main apps and will not be used standalone.
