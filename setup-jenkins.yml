@@ -5,6 +5,9 @@
     - vars/jenkins.yml
 
   tasks:
+    - import_role:
+        name: java
+        
     - name: Add an Apt signing key for Jenkins
       apt_key:
         url: https://pkg.jenkins.io/debian/jenkins.io.key

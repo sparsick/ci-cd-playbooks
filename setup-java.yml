@@ -1,9 +1,0 @@
-- hosts: java-app
-  become: yes
-  become_method: sudo
-
-  tasks:
-    - name: installl java 8
-      apt:
-        name: openjdk-8-jre-headless
-        force: yes
