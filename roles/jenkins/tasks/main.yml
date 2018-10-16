@@ -24,8 +24,15 @@
 - name: Setup Java Args
   lineinfile:
     path: /etc/default/jenkins
-    regexp: '^JAVA_ARGS=-Xmx2048m -Djava.awt.headless=true -Djenkins.install.runSetupWizard=false'
-    line: 'JAVA_ARGS='
+    regexp: '^JAVA_ARGS="-Djava.awt.headless=true"'
+    line: 'JAVA_ARGS=""-Xmx2048m -Djava.awt.headless=true"'
+  notify: restart jenkins
+
+- name: Setup Jenkins Args
+  lineinfile:
+    path: /etc/default/jenkins
+    insertafter: '^JENKINS_ARGS="-"'
+    line: 'JENKINS_ARGS="$JENKINS_ARGS -Djenkins.install.runSetupWizard=false"'
   notify: restart jenkins
 
 - name: Setup Jenkins HTTP port
