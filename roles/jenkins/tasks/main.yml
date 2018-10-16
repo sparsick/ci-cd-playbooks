@@ -50,13 +50,21 @@
     group: jenkins
     recurse: yes
   with_items:
-    - "/opt/jenkins"
-    - "/opt/jenkins/init.groovy.d"
+    - "{{ jenkins_home }}"
+    - "{{ jenkins_home }}/init.groovy.d"
 
 - name: copy init jenkins Scripts
   copy:
     src: init.groovy.d/
-    dest: /opt/jenkins/init.groovy.d/
+    dest: "{{ jenkins_home }}/init.groovy.d/"
+    owner: jenkins
+    group: jenkins
+  notify: restart jenkins
+
+- name: setup admin user
+  template:
+    src: init.groovy.d/99-setup-admin-user.groovy.j2
+    dest: "{{ jenkins_home }}/init.groovy.d/99-setup-admin-user.groovy"
     owner: jenkins
     group: jenkins
   notify: restart jenkins

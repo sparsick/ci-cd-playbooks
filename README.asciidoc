@@ -34,6 +34,9 @@ Following variable are available, along with default values:
 ----
 jenkins_home: "/opt/jenkins"
 jenkins_http_port: "8083"
+
+jenkins_admin_password: admin123
+jenkins_admin_username: admin
 ----
 
 == Testing
