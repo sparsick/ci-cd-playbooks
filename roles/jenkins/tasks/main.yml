@@ -21,25 +21,25 @@
     line: 'JENKINS_HOME={{ jenkins_home }}'
   notify: restart jenkins
 
-- name: Setup Java Args
-  lineinfile:
-    path: /etc/default/jenkins
-    regexp: '^JAVA_ARGS="-Djava.awt.headless=true"'
-    line: 'JAVA_ARGS=""-Xmx2048m -Djava.awt.headless=true"'
-  notify: restart jenkins
-
-- name: Setup Jenkins Args
-  lineinfile:
-    path: /etc/default/jenkins
-    insertafter: '^JENKINS_ARGS="-"'
-    line: 'JENKINS_ARGS="$JENKINS_ARGS -Djenkins.install.runSetupWizard=false"'
-  notify: restart jenkins
-
 - name: Setup Jenkins HTTP port
   lineinfile:
     path: /etc/default/jenkins
     regexp: '^HTTP_PORT='
     line: 'HTTP_PORT={{ jenkins_http_port }}'
+  notify: restart jenkins
+
+- name: Setup Jenkins Args
+  lineinfile:
+    path: /etc/default/jenkins
+    insertafter: '^JENKINS_ARGS="--'
+    line: 'JENKINS_ARGS="$JENKINS_ARGS -Djenkins.install.runSetupWizard=false"'
+  notify: restart jenkins
+
+- name: Setup Java Args
+  lineinfile:
+    path: /etc/default/jenkins
+    regexp: '^JAVA_ARGS='
+    line: 'JAVA_ARGS="-Xmx2048m -Djava.awt.headless=true"'
   notify: restart jenkins
 
 - name: create jenkins home folder
@@ -55,7 +55,7 @@
 
 - name: copy init jenkins Scripts
   copy:
-    src: files/jenkins/init.groovy.d/
+    src: init.groovy.d/
     dest: /opt/jenkins/init.groovy.d/
     owner: jenkins
     group: jenkins
