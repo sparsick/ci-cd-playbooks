@@ -1,0 +1,20 @@
+#!groovy
+import hudson.security.*
+import jenkins.model.*
+import hudson.*
+import java.lang.*
+
+
+def proxyConfiguration = new ProxyConfiguration("{{ jenkins_proxy_server }}",
+                                                Integer.valueOf("{{ jenkins_proxy_port }}"),
+                                                "{{ jenkins_proxy_username }}",
+                                                "{{ jenkins_proxy_password }}",
+                                                "{{ jenkins_proxy_no_proxy_host }}")
+Jenkins jenkins = Jenkins.getInstance()
+if (proxyConfiguration.name=="") {
+   jenkins.proxy = null
+   ProxyConfiguration.getXmlFile().delete()
+} else {
+   jenkins.proxy = proxyConfiguration
+   jenkins.proxy.save()
+}

@@ -1,6 +1,12 @@
 ---
 jenkins_home: "/opt/jenkins"
-jenkins_http_port: "8083"
+jenkins_http_port: "8080"
 
 jenkins_admin_password: admin123
 jenkins_admin_username: admin
+
+jenkins_proxy_server: ""
+jenkins_proxy_port: ""
+jenkins_proxy_username: ""
+jenkins_proxy_password: ""
+jenkins_proxy_no_proxy_host: ""

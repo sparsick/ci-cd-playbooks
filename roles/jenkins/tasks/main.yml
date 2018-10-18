@@ -69,6 +69,14 @@
     group: jenkins
   notify: restart jenkins
 
+- name: setup proxy
+  template:
+    src: init.groovy.d/99-setup-proxy.groovy.j2
+    dest: "{{ jenkins_home }}/init.groovy.d/99-setup-proxy.groovy"
+    owner: jenkins
+    group: jenkins
+  notify: restart jenkins
+
 - name: start jenkins service
   service:
     name: jenkins
