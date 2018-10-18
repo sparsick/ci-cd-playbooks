@@ -2,7 +2,7 @@
 import hudson.security.*
 import jenkins.model.*
 
-def instance = Jenkins.getInstance()
+def jenkins = Jenkins.instance
 def hudsonRealm = new HudsonPrivateSecurityRealm(false)
 def users = hudsonRealm.getAllUsers()
 users_s = users.collect { it.toString() }
@@ -20,9 +20,9 @@ else {
     println "--> creating local admin user"
 
     hudsonRealm.createAccount('{{ jenkins_admin_username }}', '{{ jenkins_admin_password }}')
-    instance.setSecurityRealm(hudsonRealm)
+    jenkins.setSecurityRealm(hudsonRealm)
 
     def strategy = new FullControlOnceLoggedInAuthorizationStrategy()
-    instance.setAuthorizationStrategy(strategy)
-    instance.save()
+    jenkins.setAuthorizationStrategy(strategy)
+    jenkins.save()
 }
