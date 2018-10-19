@@ -79,16 +79,33 @@
      'status' in jenkins_service_status and
      jenkins_service_status['status'] == 200
 
-- name: setup plugins
-  jenkins_plugin:
-    jenkins_home: "{{ jenkins_home }}"
+# This is a workaround for the Ansible module jenkins_plugins, that is a little bit buggy see also Ansible issues #37704
+# and  #24864
+- name: install plugins
+  template:
+    src: init.groovy.d/99-install-plugin.groovy.j2
+    dest: "{{ jenkins_home }}/init.groovy.d/99-install-plugin.groovy"
+    owner: jenkins
+    group: jenkins
+
+- name: start jenkins service
+  service:
+    name: jenkins
+    enabled: yes
+    state: restarted
+
+- name: Wait for Jenkins to start up
+  uri:
     url: "http://localhost:{{ jenkins_http_port }}"
-    url_username: "{{ jenkins_admin_username }}"
-    url_password: "{{ jenkins_admin_password }}"
-    name: "{{ item.plugin }}"
-    # version: "{{ item.version }}"
-  with_items: "{{ jenkins_plugins }}"
-  notify: restart jenkins
+    status_code: 200
+    timeout: 5
+  register: jenkins_service_status
+  # Keep trying for 10 mins in 5 sec intervals
+  retries: 120
+  delay: 5
+  until: >
+     'status' in jenkins_service_status and
+     jenkins_service_status['status'] == 200
 
 - name: copy init jenkins Scripts
   copy:
