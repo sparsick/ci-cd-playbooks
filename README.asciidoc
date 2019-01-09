@@ -42,7 +42,7 @@ jenkins_admin_username: admin
 == Testing
 It exists  a +Vagrantfile+ for testing and the inventory +test+ is prepared for the Vagrant box.
 
-It's tested with Vagrant 2.1.5. For starting the test VM run *vagrant up*.
+It's tested with Vagrant 2.2.2. For starting the test VM run *vagrant up*.
 
 
 
