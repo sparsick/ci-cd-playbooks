@@ -12,3 +12,5 @@ jenkins_proxy_password: ""
 jenkins_proxy_no_proxy_host: ""
 
 jenkins_plugins: []
+
+# jenkins_custom_init_scripts: 

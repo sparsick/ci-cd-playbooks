@@ -114,3 +114,12 @@
     owner: jenkins
     group: jenkins
   notify: restart jenkins
+
+- name: copy customize init jenkins Scripts
+  copy:
+    src: "{{ jenkins_custom_init_scripts }}"
+    dest: "{{ jenkins_home }}/init.groovy.d/"
+    owner: jenkins
+    group: jenkins
+  when: jenkins_custom_init_scripts is set
+  notify: restart jenkins
