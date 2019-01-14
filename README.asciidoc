@@ -9,11 +9,11 @@ Therefore, run following command to install all necessary roles from Ansible Gal
 ansible-galaxy install -r requirements.yml
 ----
 
-The playbooks are tested with Ansible 2.4.2.0.
+The playbooks are tested with Ansible 2.7.5.
 
 Currently, the playbooks are tested on following systems:
 - Ubuntu-based
-- centos-based
+// - centos-based
 
 == How to setup inventories
 
