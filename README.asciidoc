@@ -66,7 +66,13 @@ It exists  a +Vagrantfile+ for testing. This file defines in sum four test envir
 | ubuntu-docker
 | ubuntu-vm
 
-|===
+|====== Based on Virtual Box
+Start the VM with
+
+[source,bash]
+----
+vagrant up <os>-vm
+----
 
 
 === Based on Docker Container
@@ -75,17 +81,6 @@ Start the container with
 [source,bash]
 ----
 vagrant up <os>-docker
-----
-
-=== Based on Virtual Box
-Start and prepare the VM with
-
-[source,bash]
-----
-vagrant up <os>-vm
-./postInstall.sh
-
-vagrant password is: vagrant
 ----
 
 
