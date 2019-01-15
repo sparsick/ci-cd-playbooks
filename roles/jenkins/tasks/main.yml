@@ -1,0 +1,125 @@
+---
+- name: Add an Apt signing key for Jenkins
+  apt_key:
+    url: https://pkg.jenkins.io/debian/jenkins.io.key
+    state: present
+
+- name: add jenkins repo
+  apt_repository:
+    repo: deb https://pkg.jenkins.io/debian binary/
+    state: present
+
+- name: installl Jenkins
+  apt:
+    name: "jenkins"
+    update_cache: yes
+
+- name: Setup JENKINS_HOME
+  lineinfile:
+    path: /etc/default/jenkins
+    regexp: '^JENKINS_HOME='
+    line: 'JENKINS_HOME={{ jenkins_home }}'
+  notify: restart jenkins
+
+- name: Setup Jenkins HTTP port
+  lineinfile:
+    path: /etc/default/jenkins
+    regexp: '^HTTP_PORT='
+    line: 'HTTP_PORT={{ jenkins_http_port }}'
+  notify: restart jenkins
+
+- name: Setup Java Args
+  lineinfile:
+    path: /etc/default/jenkins
+    regexp: '^JAVA_ARGS='
+    line: 'JAVA_ARGS="-Xmx2048m -Djava.awt.headless=true -Djenkins.install.runSetupWizard=false"'
+  notify: restart jenkins
+
+- name: create jenkins home folder
+  file:
+    path: "{{ item }}"
+    state: directory
+    owner: jenkins
+    group: jenkins
+    recurse: yes
+  with_items:
+    - "{{ jenkins_home }}"
+    - "{{ jenkins_home }}/init.groovy.d"
+
+- name: setup admin user
+  template:
+    src: init.groovy.d/99-setup-admin-user.groovy.j2
+    dest: "{{ jenkins_home }}/init.groovy.d/99-setup-admin-user.groovy"
+    owner: jenkins
+    group: jenkins
+
+- name: setup proxy
+  template:
+    src: init.groovy.d/99-setup-proxy.groovy.j2
+    dest: "{{ jenkins_home }}/init.groovy.d/99-setup-proxy.groovy"
+    owner: jenkins
+    group: jenkins
+
+- name: start jenkins service
+  service:
+    name: jenkins
+    enabled: yes
+    state: restarted
+
+- name: Wait for Jenkins to start up
+  uri:
+    url: "http://localhost:{{ jenkins_http_port }}"
+    status_code: 200
+    timeout: 5
+  register: jenkins_service_status
+  # Keep trying for 5 mins in 5 sec intervals
+  retries: 60
+  delay: 5
+  until: >
+     'status' in jenkins_service_status and
+     jenkins_service_status['status'] == 200
+
+# This is a workaround for the Ansible module jenkins_plugins, that is a little bit buggy see also Ansible issues #37704
+# and  #24864
+- name: install plugins
+  template:
+    src: init.groovy.d/99-install-plugin.groovy.j2
+    dest: "{{ jenkins_home }}/init.groovy.d/99-install-plugin.groovy"
+    owner: jenkins
+    group: jenkins
+
+- name: start jenkins service
+  service:
+    name: jenkins
+    enabled: yes
+    state: restarted
+
+- name: Wait for Jenkins to start up
+  uri:
+    url: "http://localhost:{{ jenkins_http_port }}"
+    status_code: 200
+    timeout: 5
+  register: jenkins_service_status
+  # Keep trying for 10 mins in 5 sec intervals
+  retries: 120
+  delay: 5
+  until: >
+     'status' in jenkins_service_status and
+     jenkins_service_status['status'] == 200
+
+- name: copy init jenkins Scripts
+  copy:
+    src: init.groovy.d/
+    dest: "{{ jenkins_home }}/init.groovy.d/"
+    owner: jenkins
+    group: jenkins
+  notify: restart jenkins
+
+- name: copy customize init jenkins Scripts
+  copy:
+    src: "{{ jenkins_custom_init_scripts }}"
+    dest: "{{ jenkins_home }}/init.groovy.d/"
+    owner: jenkins
+    group: jenkins
+  when: jenkins_custom_init_scripts is set
+  notify: restart jenkins

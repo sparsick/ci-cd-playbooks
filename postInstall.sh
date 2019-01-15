@@ -1,3 +1,5 @@
 #!/bin/bash
-ssh-keygen -R 192.168.33.10
-ssh-copy-id -i ~/.ssh/id_rsa.pub vagrant@192.168.33.10
+GUEST_IP_ADDRESS=$1
+ssh-keygen -R $GUEST_IP_ADDRESS
+ssh-keyscan -t rsa -H $GUEST_IP_ADDRESS >> ~/.ssh/known_hosts
+sshpass -p 'vagrant' ssh-copy-id -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa.pub vagrant@$GUEST_IP_ADDRESS

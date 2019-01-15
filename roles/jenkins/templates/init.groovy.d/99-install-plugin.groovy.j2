@@ -1,0 +1,35 @@
+#!groovy
+import hudson.security.*
+import jenkins.model.*
+import java.util.logging.Logger
+
+def logger = Logger.getLogger("")
+
+def jenkins = Jenkins.instance
+
+def pluginsToInstall = "{{ jenkins_plugins }}".split(' ')
+def installedPlugins = jenkins.getPluginManager().plugins
+boolean restartNeeded = false
+def updateCenter = jenkins.updateCenter
+pluginsToInstall.each { plugin ->
+
+  boolean isInstalled = installedPlugins.any { installedPlugin ->
+    return installedPlugin.shortName == plugin
+  }
+
+  if(!isInstalled) {
+    logger.info "Starting installing $plugin"
+    def pluginFromUpdateSite = updateCenter.getPlugin(plugin)
+    if(pluginFromUpdateSite != null) {
+      pluginFromUpdateSite.deploy().get()
+      restartNeeded = true
+    } else {
+      logger.warning("Can't install $plugin, because it wasn't found on Update Sites")
+    }
+  }
+}
+
+if(restartNeeded) {
+  logger.info "Jenkins restart"
+  jenkins.restart()
+}
