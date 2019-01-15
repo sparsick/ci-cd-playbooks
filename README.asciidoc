@@ -33,8 +33,44 @@ jenkins_http_port: "8083"
 ----
 
 == Testing
-It exists  a +Vagrantfile+ for testing and the inventory +test+ is prepared for the vagrant box.
-After start the VM with +vagrant up+, you have to run +./postInstall.sh+ to prepare the vagrant user for used in Ansible.
+It exists  a +Vagrantfile+ for testing. This file defines in sum four test environments
+
+[cols="h,d,d",options="header"]
+|===
+|
+| Docker container
+| Virtual Box VM
+
+| CentOS 7
+| centos-docker
+| centos-vm
+
+| Ubuntu 16.04 LTS
+| ubuntu-docker
+| ubuntu-vm
+
+|===
+
+
+=== Based on Docker Container
+Start the container with
+
+[source,bash]
+----
+vagrant up <os>-docker
+----
+
+=== Based on Virtual Box
+Start and prepare the VM with
+
+[source,bash]
+----
+vagrant up <os>-vm
+./postInstall.sh
+
+vagrant password is: vagrant
+----
+
 
 
 // TODO: java and docker as role because they are required by the main apps and will not be used standalone.
