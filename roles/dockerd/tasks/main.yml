@@ -1,0 +1,10 @@
+---
+# tasks file for dockerd
+- include: "{{ ansible_os_family }}.yml"
+
+- name: add {{ docker_user }} to docker group
+  user:
+    name: "{{ docker_user }}"
+    groups: docker
+    append: yes
+    state: present

@@ -1,0 +1,17 @@
+- name: Add docker ce repository
+  command: yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+
+- name: Install docker daemon ce
+  yum:
+   name: "{{ item }}"
+   state: present
+  loop:
+    - yum-utils
+    - device-mapper-persistent-data
+    - lvm2
+    - docker-ce
+
+- name:
+  service:
+    name: docker
+    state: started

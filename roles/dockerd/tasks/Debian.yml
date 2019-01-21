@@ -1,0 +1,20 @@
+- name: add Docker's official GPG key
+  apt_key:
+    url: "https://download.docker.com/linux/{{ ansible_distribution | lower }}/gpg"
+    state: present
+
+- name: add Docker's repository
+  apt_repository:
+    repo: "deb [arch=amd64] https://download.docker.com/linux/{{ ansible_distribution | lower }} {{ ansible_distribution_release }} stable"
+    update_cache: yes
+
+- name: install required package and docker-ce
+  apt: name="{{ item }}" state=present
+  loop:
+    - apt-transport-https
+    - ca-certificates
+    - software-properties-common
+    - gnupg2
+    - python-docker
+    - python-pip
+    - docker-ce
