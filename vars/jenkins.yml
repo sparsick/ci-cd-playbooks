@@ -1,2 +1,11 @@
 jenkins_home: "/opt/jenkins"
 jenkins_http_port: "8083"
+
+jenkins_custom_init_scripts: "files/jenkins/init.d.groovy/"
+
+jenkins_plugins: "gitlab-plugin
+                   junit
+                   jacoco
+                   docker-workflow
+                   pipeline-maven
+                   workflow-aggregator"

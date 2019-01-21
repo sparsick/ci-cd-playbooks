@@ -1,0 +1,19 @@
+- name: add yum jenkins repository
+  yum_repository:
+    name: jenkins
+    description: Official Jenkins Repository
+    baseurl: http://pkg.jenkins.io/redhat
+    gpgcheck: 1
+
+- name: add gpg key for jenkins
+  rpm_key:
+    state: present
+    key: https://pkg.jenkins.io/redhat/jenkins.io.key
+
+- name: install jenkins adn java package
+  yum:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - jenkins
+    - java-1.8.0-openjdk

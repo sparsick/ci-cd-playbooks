@@ -1,0 +1,18 @@
+---
+- name: Add an Apt signing key for Jenkins
+  apt_key:
+    url: https://pkg.jenkins.io/debian/jenkins.io.key
+    state: present
+
+- name: add jenkins repo
+  apt_repository:
+    repo: deb https://pkg.jenkins.io/debian binary/
+    state: present
+
+- name: installl Jenkins and java
+  apt:
+    name: "{{ item }}"
+    update_cache: yes
+  loop:
+    - "openjdk-8-jre-headless"
+    - "jenkins"

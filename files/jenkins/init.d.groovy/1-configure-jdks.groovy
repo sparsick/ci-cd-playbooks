@@ -5,8 +5,7 @@ import hudson.model.*
 import hudson.tools.*
 
 def versions = [
-  "jdk11": "/opt/jdk-11.0.1/",
-  "jdk8": "/opt/jdk1.8.0_192/"
+  "jdk11": "/opt/jdk-11.0.1/"
 ]
 
 def inst = Jenkins.getInstance()

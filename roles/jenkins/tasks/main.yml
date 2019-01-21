@@ -1,38 +1,29 @@
 ---
-- name: Add an Apt signing key for Jenkins
-  apt_key:
-    url: https://pkg.jenkins.io/debian/jenkins.io.key
-    state: present
+- name: Include OS specific variable
+  include_vars:
+    file: "{{ ansible_os_family }}.yml"
 
-- name: add jenkins repo
-  apt_repository:
-    repo: deb https://pkg.jenkins.io/debian binary/
-    state: present
-
-- name: installl Jenkins
-  apt:
-    name: "jenkins"
-    update_cache: yes
+- include: "{{ ansible_os_family }}.yml"
 
 - name: Setup JENKINS_HOME
   lineinfile:
-    path: /etc/default/jenkins
+    path: "{{ global_config_path }}"
     regexp: '^JENKINS_HOME='
     line: 'JENKINS_HOME={{ jenkins_home }}'
   notify: restart jenkins
 
 - name: Setup Jenkins HTTP port
   lineinfile:
-    path: /etc/default/jenkins
-    regexp: '^HTTP_PORT='
-    line: 'HTTP_PORT={{ jenkins_http_port }}'
+    path: "{{ global_config_path }}"
+    regexp: '^{{ http_port_config_key }}='
+    line: '{{ http_port_config_key }}={{ jenkins_http_port }}'
   notify: restart jenkins
 
-- name: Setup Java Args
+- name: Setup Java Args / Options
   lineinfile:
-    path: /etc/default/jenkins
-    regexp: '^JAVA_ARGS='
-    line: 'JAVA_ARGS="-Xmx2048m -Djava.awt.headless=true -Djenkins.install.runSetupWizard=false"'
+    path: "{{ global_config_path }}"
+    regexp: '^{{ java_options_config_key }}='
+    line: '{{ java_options_config_key }}="-Xmx2048m -Djava.awt.headless=true -Djenkins.install.runSetupWizard=false"'
   notify: restart jenkins
 
 - name: create jenkins home folder
@@ -59,6 +50,9 @@
     dest: "{{ jenkins_home }}/init.groovy.d/99-setup-proxy.groovy"
     owner: jenkins
     group: jenkins
+  when:
+    - jenkins_proxy_server is defined
+    - jenkins_proxy_port is defined
 
 - name: start jenkins service
   service:
@@ -121,5 +115,5 @@
     dest: "{{ jenkins_home }}/init.groovy.d/"
     owner: jenkins
     group: jenkins
-  when: jenkins_custom_init_scripts is set
+  when: jenkins_custom_init_scripts is defined
   notify: restart jenkins
