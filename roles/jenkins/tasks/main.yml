@@ -117,3 +117,12 @@
     group: jenkins
   when: jenkins_custom_init_scripts is defined
   notify: restart jenkins
+
+- name: copy user content
+  copy:
+    src: "{{ jenkins_custom_user_content }}"
+    dest: "{{ jenkins_home }}/userContent/"
+    owner: jenkins
+    group: jenkins
+  when: jenkins_custom_user_content is defined
+  notify: restart jenkins
