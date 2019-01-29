@@ -39,14 +39,14 @@
 
 - name: setup admin user
   template:
-    src: init.groovy.d/99-setup-admin-user.groovy.j2
+    src: init.groovy.d/99-setup-admin-user.groovy.j2 # better beginning the count with 0
     dest: "{{ jenkins_home }}/init.groovy.d/99-setup-admin-user.groovy"
     owner: jenkins
     group: jenkins
 
 - name: setup proxy
   template:
-    src: init.groovy.d/99-setup-proxy.groovy.j2
+    src: init.groovy.d/99-setup-proxy.groovy.j2 # better beginning the count with 0
     dest: "{{ jenkins_home }}/init.groovy.d/99-setup-proxy.groovy"
     owner: jenkins
     group: jenkins
@@ -54,7 +54,7 @@
     - jenkins_proxy_server is defined
     - jenkins_proxy_port is defined
 
-- name: start jenkins service
+- name: start jenkins service # restart only when task before has some change
   service:
     name: jenkins
     enabled: yes
@@ -77,7 +77,7 @@
 # and  #24864
 - name: install plugins
   template:
-    src: init.groovy.d/99-install-plugin.groovy.j2
+    src: init.groovy.d/99-install-plugin.groovy.j2 # better beginning the count with 0
     dest: "{{ jenkins_home }}/init.groovy.d/99-install-plugin.groovy"
     owner: jenkins
     group: jenkins
