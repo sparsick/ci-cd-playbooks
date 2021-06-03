@@ -1,4 +1,4 @@
-- hosts: gitlab-app
+- hosts: gitlab_app
   become: yes
   become_method: sudo
   vars_files:

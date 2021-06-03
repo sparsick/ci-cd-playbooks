@@ -1,13 +1,13 @@
-[jenkins-app]
+[jenkins_app]
 192.168.33.10
 192.168.33.11
 
-[gitlab-app]
+[gitlab_app]
 192.168.33.10
 
-[nexus-app]
+[nexus_app]
 192.168.33.10
 
-[java-app:children]
-jenkins-app
-nexus-app
+[java_app:children]
+jenkins_app
+nexus_app

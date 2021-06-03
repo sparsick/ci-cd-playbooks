@@ -1,12 +1,12 @@
-[jenkins-app]
+[jenkins_app]
 ansible ansible_connection=docker
 
-[gitlab-app]
+[gitlab_app]
 ansible ansible_connection=docker
 
-[nexus-app]
+[nexus_app]
 ansible ansible_connection=docker
 
-[java-app:children]
-jenkins-app
-nexus-app
+[java_app:children]
+jenkins_app
+nexus_app

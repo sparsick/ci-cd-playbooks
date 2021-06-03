@@ -1,4 +1,4 @@
-- hosts: jenkins-app
+- hosts: jenkins_app
   become_method: sudo
   become: true
   vars_files:

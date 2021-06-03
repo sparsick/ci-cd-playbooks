@@ -1,4 +1,4 @@
-- hosts: jenkins-app
+- hosts: jenkins_app
   become: true
   become_method: sudo
 
