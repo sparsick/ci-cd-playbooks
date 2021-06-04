@@ -9,7 +9,7 @@ Therefore, run following command to install all necessary roles from Ansible Gal
 ansible-galaxy install -r requirements.yml
 ----
 
-The playbooks are tested with Ansible 2.7.5.
+The playbooks are tested with Ansible 2.10.9.
 
 Currently, the playbooks are tested on following systems:
 - Ubuntu-based

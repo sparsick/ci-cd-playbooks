@@ -3,9 +3,22 @@ jenkins_http_port: "8083"
 
 jenkins_custom_init_scripts: "files/jenkins/init.d.groovy/"
 
-jenkins_plugins: "gitlab-plugin
-                   junit
-                   jacoco
-                   docker-workflow
-                   pipeline-maven
-                   workflow-aggregator"
+jenkins_plugins: "credentials
+                  ssh-credentials
+                  plain-credentials
+                  ssh-agent
+                  workflow-api
+                  workflow-scm-step
+                  workflow-support
+                  workflow-job
+                  workflow-cps
+                  workflow-durable-task-step
+                  workflow-basic-steps
+                  pipeline-stage-step
+                  pipeline-input-step
+                  workflow-multibranch
+                  pipeline-build-step
+                  workflow-cps-global-lib
+                  workflow-aggregator
+                  git
+                  "
