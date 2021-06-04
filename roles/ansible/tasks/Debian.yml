@@ -1,0 +1,8 @@
+- name: Add ansible stable repository from PPA and install its signing key on Ubuntu target
+  ansible.builtin.apt_repository:
+    repo: ppa:ansible/ansible
+
+- name: install ansible
+  ansible.builtin.apt:
+    name: ansible-base
+    update_cache: yes

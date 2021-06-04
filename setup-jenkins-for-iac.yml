@@ -11,3 +11,5 @@
         name: git
     - import_role:
         name: vagrant
+    - import_role:
+        name: ansible
