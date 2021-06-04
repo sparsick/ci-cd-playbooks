@@ -13,7 +13,7 @@ Vagrant.configure("2") do |config|
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
   config.vm.define "ubuntu-vbox" do |ubuntu|
-    ubuntu.vm.box = "ubuntu/bionic64"
+    ubuntu.vm.box = "generic/ubuntu2004"
     ubuntu.vm.network "private_network", ip: "192.168.33.10"
 
     ubuntu.trigger.after :up do |trigger|
