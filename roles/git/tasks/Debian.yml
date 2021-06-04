@@ -1,0 +1,4 @@
+- name: installl Git
+  apt:
+    name: git
+    update_cache: yes

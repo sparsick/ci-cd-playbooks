@@ -62,7 +62,7 @@ It exists  a +Vagrantfile+ for testing. This file defines in sum four test envir
 | centos-docker
 | centos-vm
 
-| Ubuntu 16.04 LTS
+| Ubuntu 20.04 LTS
 | ubuntu-docker
 | ubuntu-vm
 
