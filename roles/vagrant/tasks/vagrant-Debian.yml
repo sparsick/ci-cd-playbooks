@@ -7,7 +7,7 @@
   ansible.builtin.apt_repository:
     repo: "deb [arch=amd64] https://apt.releases.hashicorp.com {{ ansible_distribution_release }} main  contrib"
     state: present
-    filename: vagrnat
+    filename: vagrant
 
 - name: installl vagrant
   ansible.builtin.apt:

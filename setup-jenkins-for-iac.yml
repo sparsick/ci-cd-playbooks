@@ -13,3 +13,5 @@
         name: vagrant
     - import_role:
         name: ansible
+    - import_role:
+        name: terraform
