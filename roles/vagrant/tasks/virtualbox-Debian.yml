@@ -1,0 +1,26 @@
+- name: Add an Apt signing key for virtualbox
+  ansible.builtin.apt_key:
+    url: https://www.virtualbox.org/download/oracle_vbox_2016.asc
+    state: present
+
+- name: Add VirtualBox repository
+  ansible.builtin.apt_repository:
+    repo: "deb [arch=amd64] https://download.virtualbox.org/virtualbox/debian {{ ansible_distribution_release }} contrib"
+    state: present
+    filename: virtualbox
+
+- name: installl virtualbox and needed helper
+  ansible.builtin.apt:
+    name:
+      - "linux-headers-{{ ansible_kernel }}"
+      - build-essential
+      - gcc
+      - make
+      - perl
+      - dkms
+      - virtualbox-6.1
+    update_cache: yes
+
+- name: run vboxconfig
+  ansible.builtin.shell:
+   cmd: /sbin/vboxconfig

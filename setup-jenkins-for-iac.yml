@@ -9,3 +9,5 @@
         name: jenkins
     - import_role:
         name: git
+    - import_role:
+        name: vagrant
