@@ -1,0 +1,3 @@
+plugin: hcloud
+groups:
+  jenkins_app: "'jenkins' in name"
