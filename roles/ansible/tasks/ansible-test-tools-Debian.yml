@@ -1,0 +1,5 @@
+- name: install testinfra, ansible-lint
+  ansible.builtin.pip:
+    name:
+      - pytest-testinfra
+      - ansible-lint

@@ -1,1 +1,2 @@
-- include: "{{ ansible_os_family }}.yml"
+- include: "ansible-{{ ansible_os_family }}.yml"
+- include: "ansible-test-tools-{{ ansible_os_family }}.yml"

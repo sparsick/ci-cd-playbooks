@@ -1,1 +1,5 @@
-- src: geerlingguy.gitlab
+---
+roles:
+  -name: geerlingguy.gitlab
+collections:
+  - name: community.crypto
